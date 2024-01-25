@@ -1,4 +1,3 @@
-const ids = []
 
 // getProductName - return product name
 // getShopAliases - returns aliases for every shop
