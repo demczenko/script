@@ -1,4 +1,9 @@
-
+const ids = [
+  {
+    "main_id": 314161,
+    src: "https://beliani.info/newsletter/2022/240205Category33.png"
+  },
+]
 // getProductName - return product name
 // getShopAliases - returns aliases for every shop
 // getSlavesForMasterId - return slaves for master id
@@ -86,7 +91,7 @@ async function parse_response_prices(slave_responses) {
             highPrice: response_json.sa.saved_params.ShopHPrice,
           });
         }
-      } else {
+  } else {
         return "Response value is not ok while parsing prices.";
       }
     }
@@ -95,6 +100,7 @@ async function parse_response_prices(slave_responses) {
       return "Rejected 2";
     }
   }
+
   return prices;
 }
 
@@ -194,7 +200,7 @@ async function getProductData(product) {
   ]);
   const [name, slaves_ids, products_links] = parsed_response_slaves;
 
-  const prices = await getPrices(slaves_ids);
+  const prices = await getPrices(slaves_ids.filter(slave => slave.username !== "Beliani RO"));
   const slaves_prices = await parse_response_prices(prices);
 
   const products = [];
@@ -232,7 +238,10 @@ console.log(
   ids_response
     .map((item) => {
       if (item.status === "rejected") {
-        return "Promise rejected";
+        return {
+            success: false,
+            error: item
+        };
       } else {
         return item.value;
       }
