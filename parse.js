@@ -1,9 +1,3 @@
-const ids = [
-  {
-    "main_id": 314161,
-    src: "https://beliani.info/newsletter/2022/240205Category33.png"
-  },
-]
 // getProductName - return product name
 // getShopAliases - returns aliases for every shop
 // getSlavesForMasterId - return slaves for master id
