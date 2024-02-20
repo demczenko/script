@@ -194,7 +194,12 @@ async function getProductData(product) {
   ]);
   const parsed_response_slaves = await parse_response(array_of_promises, [
     (response) => response.sa.article_name,
-    (response) => response.saCollection.list,
+    (response) => response.saCollection.list.filter(item => {
+        if (item.master_sa === product.main_id || item.master_sa === "0") {
+            return true
+        }
+        return false
+    }),
     (response) => parse_response_slaves_links(response.sa.ShopSAAlias),
   ]);
   const [name, slaves_ids, products_links] = parsed_response_slaves;
