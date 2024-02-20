@@ -71,20 +71,25 @@ async function parse_response_prices(slave_responses) {
           "Beliani SK": "sk",
         };
         const response_json = await slave_response.value.json();
-        if (response_json.sa.saved_params.username in userName) {
-          if (userName[response_json.sa.saved_params.username] === "chde") {
-            prices.push({
-              country: "chfr",
-              lowPrice: response_json.sa.saved_params.ShopPrice,
-              highPrice: response_json.sa.saved_params.ShopHPrice,
-            });
+          if ("error" in response_json) {
+              console.warn(response_json.error)
+          } else {
+              if (response_json.sa.saved_params.username in userName) {
+                  if (userName[response_json.sa.saved_params.username] === "chde") {
+                    prices.push({
+                      country: "chfr",
+                      lowPrice: response_json.sa.saved_params.ShopPrice,
+                      highPrice: response_json.sa.saved_params.ShopHPrice,
+                    });
+                  }
+                  prices.push({
+                    country: userName[response_json.sa.saved_params.username],
+                    lowPrice: response_json.sa.saved_params.ShopPrice,
+                    highPrice: response_json.sa.saved_params.ShopHPrice,
+                  });
+                }
           }
-          prices.push({
-            country: userName[response_json.sa.saved_params.username],
-            lowPrice: response_json.sa.saved_params.ShopPrice,
-            highPrice: response_json.sa.saved_params.ShopHPrice,
-          });
-        }
+
   } else {
         return "Response value is not ok while parsing prices.";
       }
